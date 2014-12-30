@@ -37,17 +37,6 @@ module.exports = {
   },
 
 
-  //   admin_index: function (req, res) {
-  //   return res.json({
-  //     todo: 'admin_index() is not implemented yet!'
-  //   });
-  // },
-
-
-ok :function(req, res){
-  return res.send("hi sailsjs");
-}
-
 
 
   /**
