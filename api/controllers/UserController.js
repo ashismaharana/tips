@@ -28,7 +28,7 @@ module.exports = {
    * `UserController.signup()`
    */
   signup: function (req, res) {
-    console.log(req.body);
+    // console.log(req.body);
     return User.signup(req.body, function(err, user){
       if(err)
         res.forbidden()

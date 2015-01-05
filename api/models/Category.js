@@ -13,7 +13,7 @@ module.exports = {
   },
 
   index: function  (opts, cb) {
-  	Category.find().exec(function(err, category){
+  	Category.find(opts).exec(function(err, category){
   		if(err)
   			cb (err);
   		else

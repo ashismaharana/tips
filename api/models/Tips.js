@@ -31,4 +31,25 @@ module.exports = {
   //    })
   // }
 
+  category_edit: function(opts, cb) {
+    Category.findOne().exec(function(err, categories){
+       sails.log.debug(categories)
+      if (err)
+        cb(err);
+      else 
+        update({id: "" })
+        cb(null, categories)
+    })
+  },
+
+
+  // category_delete: function(opts, cb) {
+  //   Category.delete(opts).exec(function(err, category){
+  //     if (err)
+  //       cb(err);
+  //     else 
+  //       .remove()
+  //       cb(null, category)
+  //   })
+  // }
 };

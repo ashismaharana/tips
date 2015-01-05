@@ -15,11 +15,11 @@ module.exports = {
     // sails.log.debug(req.method)
     if(req.method == 'POST'){
       // sails.log.debug(req.method)
-      return Tips.category_add(req.body, function(err, Category){
+      return Tips.category_add(req.body, function(err, category){
         if (err)
           res.serverError();
         else
-          res.json(Category);
+          res.json(category);
       });
     }else{
       // sails.log.debug(req.method)
@@ -37,14 +37,16 @@ module.exports = {
    * `TipsController.category_edit()`
    */
   category_edit: function (req, res) {
-    return Tips.category_edit(req.body, function(err, category){
+      var conditions = {};
+      if(req.param('id'))
+        conditions.id = req.param('id');
+      User.findOne({id: opts.id}).exec(function(err, category){
       if (err)
         res.forbidden()
       else
         res.json(category)
     });
   },
-
 
   /**
    * `TipsController.category_delete()`
@@ -54,20 +56,24 @@ module.exports = {
       if (err)
         res.forbidden()
       else
+        delete user['category'];
         res.json(category)
     });
   },
-
 
   /**
    * `TipsController.categories()`
    */
   categories: function (req, res) {
-    return Category.index(req.body, function(err, category){
+    var conditions = {};
+    if(req.param('id'))
+      conditions.id = req.param('id');
+
+    return Category.index(conditions, function(err, Category){
       if (err)
         res.forbidden()
       else
-        res.json(category)
+        res.json(Category)
     });
   },
 };
