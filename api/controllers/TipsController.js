@@ -12,13 +12,24 @@ module.exports = {
    * `TipsController.category_add()`
    */
   category_add: function (req, res) {
-    sails.log.debug(req);
-    return Tips.category_add(req.body, function(err, category){
-      if (err)
-        res.serverError();
-      else
-        res.json(category);
-    });
+    // sails.log.debug(req.method)
+    if(req.method == 'POST'){
+      // sails.log.debug(req.method)
+      return Tips.category_add(req.body, function(err, Category){
+        if (err)
+          res.serverError();
+        else
+          res.json(Category);
+      });
+    }else{
+      // sails.log.debug(req.method)
+      return Tips.category_list(function(err, category){
+        if (err)
+          res.serverError();
+        else
+          res.json(category);
+      });
+    }
   },
 
 
@@ -39,11 +50,11 @@ module.exports = {
    * `TipsController.category_delete()`
    */
   category_delete: function (req, res) {
-    return Tips.category_delete(req.body, function(err, add){
+    return Tips.category_delete(req.body, function(err, category){
       if (err)
         res.forbidden()
       else
-        res.json(add)
+        res.json(category)
     });
   },
 
@@ -52,11 +63,11 @@ module.exports = {
    * `TipsController.categories()`
    */
   categories: function (req, res) {
-    return Category.index(req.body, function(err, add){
+    return Category.index(req.body, function(err, category){
       if (err)
         res.forbidden()
       else
-        res.json(add)
+        res.json(category)
     });
   },
 };

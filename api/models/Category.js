@@ -8,9 +8,17 @@
 module.exports = {
 
   attributes: {
-     name: {type: 'string'}
+    title: { type: 'string' },
+    description: { type: 'string' },
+  },
+
+  index: function  (opts, cb) {
+  	Category.find().exec(function(err, category){
+  		if(err)
+  			cb (err);
+  		else
+  			cb(null, category);
+  	});
   }
-
-
 };
 

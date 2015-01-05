@@ -22,18 +22,13 @@
 
   module.exports.routes = {
      'post /signup': 'UserController.signup',
-     'post /login': 'UserController.login',
+     'POST /login': 'UserController.login',
      
      'POST /tips/category': 'TipsController.category_add',
      'PUT /tips/category': 'TipsController.category_edit',
      'DELETE /tips/category': 'TipsController.category_delete',
      'GET /tips/categories': 'TipsController.categories',
 
-  
-     // 'POST /tips/:id/category': 'TipsController.category_add',
-     // 'PUT /tips/:id/category': 'TipsController.category_edit',
-     // 'DELETE /tips/:id/category': 'TipsController.category_delete',
-     // 'GET /tips/:id/categories': 'TipsController.categories',
 
   /***************************************************************************
   *                                                                          *

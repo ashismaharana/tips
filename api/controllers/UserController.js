@@ -15,8 +15,10 @@ module.exports = {
       if(err)
         res.forbidden()
       else{
-        res.session.user = user;
-       res.json(user); 
+        delete user['password'];
+        req.session.authenticated = true;
+        req.session.user = user;
+        res.json(user); 
       }
         
     });
