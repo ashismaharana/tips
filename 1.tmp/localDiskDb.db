@@ -1,0 +1,143 @@
+{
+  "data": {
+    "category": [],
+    "tips": [
+      {
+        "title": "mac",
+        "createdAt": "2015-01-05T05:11:32.987Z",
+        "updatedAt": "2015-01-05T05:11:32.987Z",
+        "id": 5
+      },
+      {
+        "title": "unix",
+        "createdAt": "2015-01-05T05:53:50.091Z",
+        "updatedAt": "2015-01-05T05:53:50.091Z",
+        "id": 6
+      },
+      {
+        "title": "unix",
+        "createdAt": "2015-01-05T05:55:34.115Z",
+        "updatedAt": "2015-01-05T05:55:34.115Z",
+        "id": 7
+      },
+      {
+        "title": "mac",
+        "createdAt": "2015-01-05T05:56:12.323Z",
+        "updatedAt": "2015-01-05T05:56:12.323Z",
+        "id": 8
+      }
+    ],
+    "user": [
+      {
+        "firstName": "ashis",
+        "lastName": "maharana",
+        "email": "ashis.maharana@mantralabsglobal.com",
+        "password": "password",
+        "createdAt": "2015-01-05T06:03:59.659Z",
+        "updatedAt": "2015-01-05T06:03:59.659Z",
+        "id": 5
+      },
+      {
+        "firstName": "ashis",
+        "lastName": "maharana",
+        "email": "ashis.maharana@mantralabsglobal.com",
+        "password": "password",
+        "createdAt": "2015-01-05T06:06:34.602Z",
+        "updatedAt": "2015-01-05T06:06:34.602Z",
+        "id": 6
+      },
+      {
+        "firstName": "ashis",
+        "lastName": "maharana",
+        "email": "ashis.maharana@mantralabsglobal.com",
+        "password": "password",
+        "createdAt": "2015-01-05T06:06:56.596Z",
+        "updatedAt": "2015-01-05T06:06:56.596Z",
+        "id": 7
+      },
+      {
+        "firstName": "ashis",
+        "lastName": "maharana",
+        "email": "ashis.maharana@mantralabsglobal.com",
+        "password": "password",
+        "createdAt": "2015-01-05T06:07:20.686Z",
+        "updatedAt": "2015-01-05T06:07:20.686Z",
+        "id": 8
+      }
+    ]
+  },
+  "schema": {
+    "category": {
+      "name": {
+        "type": "string"
+      },
+      "id": {
+        "type": "integer",
+        "autoIncrement": true,
+        "primaryKey": true,
+        "unique": true
+      },
+      "createdAt": {
+        "type": "datetime"
+      },
+      "updatedAt": {
+        "type": "datetime"
+      }
+    },
+    "tips": {
+      "title": {
+        "type": "string"
+      },
+      "description": {
+        "type": "string"
+      },
+      "id": {
+        "type": "integer",
+        "autoIncrement": true,
+        "primaryKey": true,
+        "unique": true
+      },
+      "createdAt": {
+        "type": "datetime"
+      },
+      "updatedAt": {
+        "type": "datetime"
+      }
+    },
+    "user": {
+      "firstName": {
+        "type": "string"
+      },
+      "lastName": {
+        "type": "string"
+      },
+      "email": {
+        "type": "string"
+      },
+      "password": {
+        "type": "string"
+      },
+      "id": {
+        "type": "integer",
+        "autoIncrement": true,
+        "primaryKey": true,
+        "unique": true
+      },
+      "createdAt": {
+        "type": "datetime"
+      },
+      "updatedAt": {
+        "type": "datetime"
+      }
+    }
+  },
+  "counters": {
+    "category": {},
+    "tips": {
+      "id": 9
+    },
+    "user": {
+      "id": 8
+    }
+  }
+}

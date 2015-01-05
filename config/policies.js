@@ -48,4 +48,9 @@ module.exports.policies = {
 		// before letting any users feed our rabbits
 		// feed : ['isNiceToAnimals', 'hasRabbitFood', 'sessionAuth']
 	// }
+
+  TipsController: {
+    create: 'sessionAuth',
+    category_add : 'isAdmin'
+  }
 };

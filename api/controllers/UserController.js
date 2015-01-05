@@ -6,27 +6,36 @@
  */
 
 module.exports = {
-	
-
 
   /**
    * `UserController.login()`
    */
   login: function (req, res) {
-    return res.json({
-      todo: 'login() is not implemented yet!'
+    return User.login(req.body, function(err, user){    
+      if(err)
+        res.forbidden()
+      else{
+        res.session.user = user;
+       res.json(user); 
+      }
+        
     });
   },
-
 
   /**
    * `UserController.signup()`
    */
   signup: function (req, res) {
-    return res.json({
-      todo: 'signup() is not implemented yet!'
+    console.log(req.body);
+    return User.signup(req.body, function(err, user){
+      if(err)
+        res.forbidden()
+      else{
+        res.json(user);
+      }
     });
   },
+
 
 
   /**
@@ -37,9 +46,7 @@ module.exports = {
   },
 
 
-
-
-  /**
+ /**
    * `UserController.profile()`
    */
   profile: function (req, res) {
@@ -47,5 +54,7 @@ module.exports = {
       todo: 'profile() is not implemented yet!'
     });
   }
+
+ 
 };
 
