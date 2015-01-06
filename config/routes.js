@@ -26,7 +26,7 @@
      
      'POST /tips/category': 'TipsController.category_add',
      'PUT /tips/category/:id': 'TipsController.category_edit',
-     'DELETE /tips/category': 'TipsController.category_delete',
+     'DELETE /tips/category/:id': 'TipsController.category_delete',
      'GET /tips/categories/:id': 'TipsController.categories',
 
 

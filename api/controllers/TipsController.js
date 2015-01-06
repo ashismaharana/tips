@@ -58,11 +58,10 @@ module.exports = {
         var id = req.param('id');
     }
 
-    return Tips.category_delete(id,  function(err, category){
+    Tips.category_delete(id,  function(err, category){
       if (err)
-        res.forbidden()
+        res.serverError();
       else
-        delete user['category'];
         res.json(category)
     });
   },

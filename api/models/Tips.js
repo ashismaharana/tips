@@ -41,13 +41,12 @@ module.exports = {
   },
 
 
-  // category_delete: function(opts, cb) {
-  //   Category.delete(opts).exec(function(err, category){
-  //     if (err)
-  //       cb(err);
-  //     else 
-  //       .remove()
-  //       cb(null, category)
-  //   })
-  // }
+  category_delete: function(id, cb) {
+    Category.destroy({id: id}).exec(function(err, category){
+      if(err)
+        cb(err);
+      else 
+        cb(null, {msg: 'Deleted', status: 200});
+    });
+  }
 };
