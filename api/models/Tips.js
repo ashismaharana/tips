@@ -31,14 +31,12 @@ module.exports = {
   //    })
   // }
 
-  category_edit: function(opts, cb) {
-    Category.findOne().exec(function(err, categories){
-       sails.log.debug(categories)
+  category_edit: function(id, opts, cb) {
+    Category.update({id: id}, opts, function(err, category){
       if (err)
         cb(err);
       else 
-        update({id: "" })
-        cb(null, categories)
+        cb(null, category);
     })
   },
 

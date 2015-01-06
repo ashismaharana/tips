@@ -25,7 +25,7 @@
      'POST /login': 'UserController.login',
      
      'POST /tips/category': 'TipsController.category_add',
-     ' /tips/category': 'TipsController.category_edit',
+     'PUT /tips/category/:id': 'TipsController.category_edit',
      'DELETE /tips/category': 'TipsController.category_delete',
      'GET /tips/categories/:id': 'TipsController.categories',
 

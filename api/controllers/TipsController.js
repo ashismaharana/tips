@@ -37,22 +37,28 @@ module.exports = {
    * `TipsController.category_edit()`
    */
   category_edit: function (req, res) {
-      var conditions = {};
-      if(req.param('id'))
-        conditions.id = req.param('id');
-      User.findOne({id: opts.id}).exec(function(err, category){
-      if (err)
-        res.forbidden()
-      else
-        res.json(category)
-    });
+      if(req.param('id')){
+        var id = req.param('id');
+      }
+
+      Tips.category_edit(id, req.body, function(err, category){
+        if (err){
+          res.json({errors: err});
+        } else {
+          res.json(category);
+        }
+      });
   },
 
   /**
    * `TipsController.category_delete()`
    */
   category_delete: function (req, res) {
-    return Tips.category_delete(req.body, function(err, category){
+    if(req.param('id')){
+        var id = req.param('id');
+    }
+
+    return Tips.category_delete(id,  function(err, category){
       if (err)
         res.forbidden()
       else
