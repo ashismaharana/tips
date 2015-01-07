@@ -6,32 +6,18 @@
  */
 
 module.exports = {
-	
 
   /**
    * `TipsController.category_add()`
    */
   category_add: function (req, res) {
-    // sails.log.debug(req.method)
-    if(req.method == 'POST'){
-      // sails.log.debug(req.method)
-      return Tips.category_add(req.body, function(err, category){
-        if (err)
-          res.serverError();
-        else
-          res.json(category);
-      });
-    }else{
-      // sails.log.debug(req.method)
-      return Tips.category_list(function(err, category){
-        if (err)
-          res.serverError();
-        else
-          res.json(category);
-      });
-    }
+    return Tips.category_add(req.body, function(err, category){
+      if (err)
+        res.serverError();
+      else
+        res.json(category);
+    });
   },
-
 
   /**
    * `TipsController.category_edit()`
@@ -70,15 +56,36 @@ module.exports = {
    * `TipsController.categories()`
    */
   categories: function (req, res) {
+    sails.log.debug("INFO: Inside TipsController:categories");
     var conditions = {};
     if(req.param('id'))
       conditions.id = req.param('id');
 
+    sails.log.debug("Conditions:", conditions)
     return Category.index(conditions, function(err, Category){
       if (err)
-        res.forbidden()
+        res.serverError();
       else
         res.json(Category)
+    });
+  },
+
+
+  // index: function(req, res){
+    
+  // },
+
+  /**
+  * `TipsController.addTips()`
+  */
+  add: function (req, res) {
+    var opts = req.body;
+    opts.created_by = req.session.user.id;
+    return Tips.add(opts, function(err, addTips){
+    if (err)
+      res.serverError();
+    else
+      res.json(addTips);
     });
   },
 };

@@ -7,6 +7,7 @@
 
 module.exports = {
 
+
   /**
    * `UserController.login()`
    */
@@ -19,8 +20,7 @@ module.exports = {
         req.session.authenticated = true;
         req.session.user = user;
         res.json(user); 
-      }
-        
+      }      
     });
   },
 
@@ -53,10 +53,17 @@ module.exports = {
    */
   profile: function (req, res) {
     return res.json({
-      todo: 'profile() is not implemented yet!'
+      // todo: 'profile() is not implemented yet!'      
     });
-  }
+  },
 
- 
+  isLogedin: function(req, res) {
+    sails.log.debug(req.session)
+    if(req.session && req.session.authenticated && req.session.user){
+      res.json(req.session.user);
+    }else{
+      res.json('n');
+    }
+  }
 };
 

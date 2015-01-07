@@ -52,7 +52,6 @@ module.exports.policies = {
   TipsController: {
     create: 'sessionAuth',
     category_add : 'isAdmin'
-
   }
 
 };

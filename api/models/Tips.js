@@ -8,8 +8,21 @@
 module.exports = {
 
   attributes: {
-    title: { type: 'string' },
-    description: { type: 'string' },
+    title: { 
+      type: 'string'
+    },
+    description: {
+      type: 'string' 
+    },
+    created_by: { 
+      type: 'string', 
+      required: true 
+    },
+    category_list: { 
+      required: true ,
+      type: 'string' , 
+      in: ['unix', 'mac', 'windows']
+    },
   },
   
   category_add: function (opts, cb) {
@@ -21,15 +34,6 @@ module.exports = {
         cb(null, category);
     });
   },
-  // category_list: function (cb) {
-  //    Category.find().exec(function(err, category){
-  //     // sails.log.debug(category)
-  //     if(err)
-  //       cb(err);
-  //     else
-  //       cb(null, category);
-  //    })
-  // }
 
   category_edit: function(id, opts, cb) {
     Category.update({id: id}, opts, function(err, category){
@@ -40,13 +44,27 @@ module.exports = {
     })
   },
 
-
   category_delete: function(id, cb) {
     Category.destroy({id: id}).exec(function(err, category){
       if(err)
         cb(err);
-      else 
-        cb(null, {msg: 'Deleted', status: 200});
+      else
+        cb(null, category);
     });
-  }
+  },
+
+  // list: function(opts, cb){
+
+  // },
+
+  add: function(opts, cb) {
+    Tips.create(opts).exec(function(err, tips){
+      if(!err && tips){
+        return cb(null, tips); 
+      }
+      else{
+        return cb(err);
+      }
+    })
+  },
 };

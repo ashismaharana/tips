@@ -14,6 +14,7 @@ module.exports = {
 
   index: function  (opts, cb) {
   	Category.find(opts).exec(function(err, category){
+      sails.log.debug("RESULT after finding category:", err, category);
   		if(err)
   			cb (err);
   		else
