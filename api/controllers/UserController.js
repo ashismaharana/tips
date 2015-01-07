@@ -7,7 +7,6 @@
 
 module.exports = {
 
-
   /**
    * `UserController.login()`
    */
@@ -38,15 +37,12 @@ module.exports = {
     });
   },
 
-
-
   /**
    * `UserController.admin_index()`
    */
   admin_index: function (req, res) {
     return res.send("Hi there!");
   },
-
 
  /**
    * `UserController.profile()`

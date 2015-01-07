@@ -18,11 +18,11 @@ module.exports = {
       type: 'string', 
       required: true 
     },
-    category_list: { 
+    category_id: {
       required: true ,
       type: 'string' , 
-      in: ['unix', 'mac', 'windows']
-    },
+      in: ['54abb291a62768a4118239dd', '54abb2b0a62768a4118239df', '54abca3993f08ea21c50f61b']
+    }
   },
   
   category_add: function (opts, cb) {
@@ -53,9 +53,14 @@ module.exports = {
     });
   },
 
-  // list: function(opts, cb){
-
-  // },
+  list: function(opts, cb){
+    Tips.find(opts).exec(function(err, tips){
+      if(err)
+        cb (err);
+      else
+        cb(null, tips);
+    });
+  },
 
   add: function(opts, cb) {
     Tips.create(opts).exec(function(err, tips){

@@ -9,18 +9,16 @@ var crypto = require('crypto');
 
 module.exports = {
 
-  attributes: {
-    firstName : { type: 'string' },
-    lastName : { type: 'string' },
-    email : { type: 'string', unique: true, required: true},
-    password : { type: 'string' }
-  },
+	ttributes: {
+		firstName : { type: 'string' },
+	    lastName : { type: 'string' },
+	    email : { type: 'string', unique: true, required: true},
+	    password : { type: 'string' }
+	},
 
-  list: function(cb){
-  	
-  },
+	list: function(cb){
 
-//
+    },
 
 	login: function(opts, cb){
 	  	User.findOne({email: opts.email}).exec(function(err, user){
@@ -40,9 +38,9 @@ module.exports = {
 
 	signup: function(opts, cb){
 	  	saltAndHash(opts.password, function(hash){
-  			opts.password = hash;
-  			// sails.log.debug(opts)
-  			User.create(opts).exec(function(err, user){
+				opts.password = hash;
+				// sails.log.debug(opts)
+				User.create(opts).exec(function(err, user){
 		  		if(!err && user){
 		  			return cb(null, user);
 		  		}else{
@@ -52,9 +50,9 @@ module.exports = {
 
 	  	})
 	}
-}
+}//module.exports end
 
-
+//signup, login password encryption and validatePassword
 var generateSalt = function(){
 	var set = '0123456789abcdefghijklmnopqurstuvwxyzABCDEFGHIJKLMNOPQURSTUVWXYZ';
 	var salt = '';
@@ -78,4 +76,4 @@ var validatePassword = function(plainPass, hashedPass, callback){
 	var salt = hashedPass.substr(0, 10);
 	var validHash = salt + md5(plainPass + salt);
 	callback(hashedPass === validHash);
-}
+}//end password encryption and validatePassword

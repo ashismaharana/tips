@@ -41,7 +41,7 @@ module.exports = {
    */
   category_delete: function (req, res) {
     if(req.param('id')){
-        var id = req.param('id');
+      var id = req.param('id');
     }
 
     Tips.category_delete(id,  function(err, category){
@@ -56,12 +56,10 @@ module.exports = {
    * `TipsController.categories()`
    */
   categories: function (req, res) {
-    sails.log.debug("INFO: Inside TipsController:categories");
     var conditions = {};
     if(req.param('id'))
       conditions.id = req.param('id');
 
-    sails.log.debug("Conditions:", conditions)
     return Category.index(conditions, function(err, Category){
       if (err)
         res.serverError();
@@ -70,10 +68,25 @@ module.exports = {
     });
   },
 
-
-  // index: function(req, res){
+  /**
+   * `TipsController.index()`
+   */
+  index: function(req, res){
+    var conditions = {};
+    if(req.param('categoryId')){
+      conditions.category_id = req.param('categoryId');
+    }
     
-  // },
+    if(req.param('userId'))
+      conditions.created_by = req.param('userId');
+
+    Tips.list(conditions, function(err, tips){
+      if(err)
+        res.serverError(err);
+      else
+        res.json(tips)
+    });  
+  },
 
   /**
   * `TipsController.addTips()`
@@ -81,11 +94,11 @@ module.exports = {
   add: function (req, res) {
     var opts = req.body;
     opts.created_by = req.session.user.id;
-    return Tips.add(opts, function(err, addTips){
+    Tips.add(opts, function(err, Tips){
     if (err)
       res.serverError();
     else
-      res.json(addTips);
+      res.json(Tips);
     });
   },
 };
