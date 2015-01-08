@@ -9,7 +9,7 @@ var crypto = require('crypto');
 
 module.exports = {
 
-	ttributes: {
+	attributes: {
 		firstName : { type: 'string' },
 	    lastName : { type: 'string' },
 	    email : { type: 'string', unique: true, required: true},
@@ -49,8 +49,9 @@ module.exports = {
 		  	})
 
 	  	})
-	}
-}//module.exports end
+	},
+
+}//module exports end
 
 //signup, login password encryption and validatePassword
 var generateSalt = function(){

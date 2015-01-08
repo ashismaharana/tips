@@ -101,5 +101,46 @@ module.exports = {
       res.json(Tips);
     });
   },
+
+  /**
+  * `TipsController.thumbsUp()`
+  */
+  thumbsUp: function (req, res) {
+    var tipId = req.param("tipId");
+    var userId = req.session.user.id;
+    if(tipId){
+      var data = { user_id: userId, tip_id: tipId, thumbs: 'up'};
+      return  Thumbs.upVote(data, function(err, thumb){
+        if(err)
+          res.serverError(err);
+        else{
+          Thumbs.updateThumbs(tipId);
+          res.json(thumb)
+        }
+      });
+    }else
+        res.badRequest('tipId missing');
+  },
+
+  /**
+  * `TipsController.thumbsDown()`
+  */
+  thumbsDown: function (req, res) {
+    var tipId = req.param("tipId");
+    var userId = req.session.user.id;
+    if(tipId){
+      var data = { user_id: userId, tip_id: tipId, thumbs: 'down'};
+      return Thumbs.downVote(data, function(err, thumb){
+        if(err)
+          res.serverError(err);
+        else{
+          Thumbs.updateThumbs(tipId);
+          res.json(thumb)
+        }  
+      });
+    }else
+        res.badRequest('tipId missing');
+  },
+
 };
 
