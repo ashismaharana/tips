@@ -25,7 +25,7 @@ module.exports = {
   },
 
   upVote: function (opts, cb) {
-  	Thumbs.create(opts).exec(function(err, up){
+  	Thumb.create(opts).exec(function(err, up){
   		if(err)
   			cb(err);
   		else
@@ -34,24 +34,24 @@ module.exports = {
   },
 
   updateThumbs: function(tipId){
-  	Thumbs.count({tip_id: tipId, thumbs: 'up'}).exec(function(err, upCount){
+  	Thumb.count({tip_id: tipId, thumbs: 'up'}).exec(function(err, upCount){
   		if(!err){
-  			Tips.findOne({id: tipId}).exec(function(err, tip){
+  			Tip.findOne({id: tipId}).exec(function(err, tip){
   				if(!err){
   					tip.thumbs_up = upCount;
-  					Tips.update({id: tipId}, tip).exec(function(err, tips){
+  					Tip.update({id: tipId}, tip).exec(function(err, tips){
   						//done
   					});
   				}
   			});
   		}
   	});
-  	Thumbs.count({tip_id: tipId, thumbs: 'down'}).exec(function(err, upCount){
+  	Thumb.count({tip_id: tipId, thumbs: 'down'}).exec(function(err, upCount){
   		if(!err){
-  			Tips.findOne({id: tipId}).exec(function(err, tip){
+  			Tip.findOne({id: tipId}).exec(function(err, tip){
   				if(!err){
   					tip.thumbs_down = upCount;
-  					Tips.update({id: tipId}, tip).exec(function(err, tips){
+  					Tip.update({id: tipId}, tip).exec(function(err, tips){
   						//done
   					});
   				}
@@ -61,7 +61,7 @@ module.exports = {
   },
 
   downVote: function (opts, cb) {
-  	Thumbs.create(opts).exec(function(err, down){
+  	Thumb.create(opts).exec(function(err, down){
   		if(err)
   			cb(err);
   		else

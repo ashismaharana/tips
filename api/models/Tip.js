@@ -1,5 +1,5 @@
 /**
-* Tips.js
+* Tip.js
 *
 * @description :: TODO: You might write a short summary of how this model works and what it represents here.
 * @docs        :: http://sailsjs.org/#!documentation/models
@@ -16,7 +16,7 @@ module.exports = {
     },
     created_by: { 
       type: 'string', 
-      required: true 
+      required: true ,
     },
     category_id: {
       required: true ,
@@ -53,23 +53,43 @@ module.exports = {
     });
   },
 
-  list: function(opts, cb){
-    Tips.find(opts).exec(function(err, tips){
-      if(err)
-        cb (err);
-      else
-        cb(null, tips);
-    });
-  },
-
   add: function(opts, cb) {
-    Tips.create(opts).exec(function(err, tips){
-      if(!err && tips){
-        return cb(null, tips); 
+    Tip.create(opts).exec(function(err, tip){
+      if(!err && tip){
+        return cb(null, tip); 
       }
       else{
         return cb(err);
       }
     })
   },
+
+  edit: function(id, opts, cb) {
+    Tip.update({id: id}, opts, function(err, category){
+      if (err)
+        cb(err);
+      else 
+        cb(null, category);
+    })
+  },
+
+  delete: function(id, cb) {
+    Tip.destroy({id: id}).exec(function(err, category){
+      if(err)
+        cb(err);
+      else
+        cb(null, category);
+    });
+  },
+
+
+  list: function(opts, cb){
+    Tip.find(opts).exec(function(err, tip){
+      if(err)
+        cb (err);
+      else
+        cb(null, tip);
+    });
+  },
+
 };

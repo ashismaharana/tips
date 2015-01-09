@@ -11,7 +11,7 @@ module.exports = {
    * `TipsController.category_add()`
    */
   category_add: function (req, res) {
-    return Tips.category_add(req.body, function(err, category){
+    return Tip.category_add(req.body, function(err, category){
       if (err)
         res.serverError();
       else
@@ -27,7 +27,7 @@ module.exports = {
         var id = req.param('id');
       }
 
-      Tips.category_edit(id, req.body, function(err, category){
+      Tip.category_edit(id, req.body, function(err, category){
         if (err){
           res.json({errors: err});
         } else {
@@ -44,7 +44,7 @@ module.exports = {
       var id = req.param('id');
     }
 
-    Tips.category_delete(id,  function(err, category){
+    Tip.category_delete(id,  function(err, category){
       if (err)
         res.serverError();
       else
@@ -68,6 +68,58 @@ module.exports = {
     });
   },
 
+
+  /**
+  * `TipsController.add()`
+  */
+  add: function (req, res) {
+    var opts = req.body;
+    opts.created_by = req.session.user.id;
+    Tip.add(opts, function(err, Tip){
+    if (err)
+      res.serverError();
+    else
+      res.json(Tip);
+    });
+  },
+
+
+
+ /**
+ * `TipsController.edit()`
+ */
+  edit: function (req, res) {
+      if(req.param('id')){
+        var id = req.param('id');
+      }
+
+      Tip.edit(id, req.body, function(err, category){
+        if (err){
+          res.json({errors: err});
+        } else {
+          res.json(category);
+        }
+      });
+  },
+
+
+  /**
+   * `TipsController.delete()`
+   */
+  delete: function (req, res) {
+    if(req.param('id')){
+      var id = req.param('id');
+    }
+
+    Tip.delete(id,  function(err, category){
+      if (err)
+        res.serverError();
+      else
+        res.json(category)
+    });
+  },
+
+
   /**
    * `TipsController.index()`
    */
@@ -80,27 +132,14 @@ module.exports = {
     if(req.param('userId'))
       conditions.created_by = req.param('userId');
 
-    Tips.list(conditions, function(err, tips){
+    Tip.list(conditions, function(err, tip){
       if(err)
         res.serverError(err);
       else
-        res.json(tips)
+        res.json(tip)
     });  
   },
 
-  /**
-  * `TipsController.addTips()`
-  */
-  add: function (req, res) {
-    var opts = req.body;
-    opts.created_by = req.session.user.id;
-    Tips.add(opts, function(err, Tips){
-    if (err)
-      res.serverError();
-    else
-      res.json(Tips);
-    });
-  },
 
   /**
   * `TipsController.thumbsUp()`
@@ -110,11 +149,11 @@ module.exports = {
     var userId = req.session.user.id;
     if(tipId){
       var data = { user_id: userId, tip_id: tipId, thumbs: 'up'};
-      return  Thumbs.upVote(data, function(err, thumb){
+      return  Thumb.upVote(data, function(err, thumb){
         if(err)
           res.serverError(err);
         else{
-          Thumbs.updateThumbs(tipId);
+          Thumb.updateThumbs(tipId);
           res.json(thumb)
         }
       });
@@ -130,11 +169,11 @@ module.exports = {
     var userId = req.session.user.id;
     if(tipId){
       var data = { user_id: userId, tip_id: tipId, thumbs: 'down'};
-      return Thumbs.downVote(data, function(err, thumb){
+      return Thumb.downVote(data, function(err, thumb){
         if(err)
           res.serverError(err);
         else{
-          Thumbs.updateThumbs(tipId);
+          Thumb.updateThumbs(tipId);
           res.json(thumb)
         }  
       });
