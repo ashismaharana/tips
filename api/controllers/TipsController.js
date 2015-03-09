@@ -7,100 +7,113 @@
 
 module.exports = {
 
-  /**
-   * `TipsController.category_add()`
-   */
-  category_add: function (req, res) {
-    return Tip.category_add(req.body, function(err, category){
-      if (err)
-        res.serverError();
-      else
-        res.json(category);
-    });
-  },
+    /**
+     * `TipsController.category_add()`
+     */
+    category_add: function (req, res) {
+        console.log("INFO: Category Add Request Body : ", req.body);
+        return Tip.category_add(req.body, function(err, category){
+          if (err){
+            console.log('create tip err',err);
+            res.serverError();
+          }
+          else{
+            res.json(category);
+          }
+        });
+    },
 
-  /**
-   * `TipsController.category_edit()`
-   */
-  category_edit: function (req, res) {
-      if(req.param('id')){
-        var id = req.param('id');
-      }
+    /**
+     * `TipsController.category_edit()`
+     */
+    category_edit: function (req, res) {
+      // console.log('category edit',req);
+          if(req.param('id')){
+            var id = req.param('id');
+            console.log('category id :',id);
+          }
 
-      Tip.category_edit(id, req.body, function(err, category){
-        if (err){
-          res.json({errors: err});
-        } else {
-          res.json(category);
+          Tip.category_edit(id, req.body, function(err, category){
+            if (err){
+              res.json({errors: err});
+            } else {
+              res.json(category);
+            }
+          });
+    },
+
+    /**
+       * `TipsController.category_delete()`
+       */
+    category_delete: function (req, res) {
+        if(req.param('id')){
+          var id = req.param('id');
         }
-      });
-  },
 
-  /**
-   * `TipsController.category_delete()`
-   */
-  category_delete: function (req, res) {
-    if(req.param('id')){
-      var id = req.param('id');
-    }
+        Tip.category_delete(id,  function(err, category){
+          if (err)
+            res.serverError();
+          else
+            res.json(category);
+        });
+    },
 
-    Tip.category_delete(id,  function(err, category){
-      if (err)
-        res.serverError();
-      else
-        res.json(category)
-    });
-  },
-
-  /**
-   * `TipsController.categories()`
-   */
-  categories: function (req, res) {
-    var conditions = {};
-    if(req.param('id'))
-      conditions.id = req.param('id');
-
-    return Category.index(conditions, function(err, Category){
-      if (err)
-        res.serverError();
-      else
-        res.json(Category)
-    });
-  },
-
-
-  /**
-  * `TipsController.add()`
-  */
-  add: function (req, res) {
-    var opts = req.body;
-    opts.created_by = req.session.user.id;
-    Tip.add(opts, function(err, Tip){
-    if (err)
-      res.serverError();
-    else
-      res.json(Tip);
-    });
-  },
-
-
-
- /**
- * `TipsController.edit()`
- */
-  edit: function (req, res) {
-      if(req.param('id')){
-        var id = req.param('id');
-      }
-
-      Tip.edit(id, req.body, function(err, category){
-        if (err){
-          res.json({errors: err});
-        } else {
-          res.json(category);
+    /**
+       * `TipsController.categories()`
+       */
+    categories: function (req, res) {
+        var conditions = {};
+        if(req.param('id')){
+          conditions.id = req.param('id');
         }
-      });
-  },
+
+        return Category.index(conditions, function(err, Category){
+          if (err){
+            res.serverError();
+          }
+          else {
+            res.json(Category);
+          }
+        });
+    },
+
+
+      /**
+      * `TipsController.add()`
+      */
+    add: function (req, res) {
+        console.log('INFO: add req',req);
+        var opts = req.body;
+        opts.created_by = req.session.user.id;
+        Tip.add(opts, function(err, Tip){
+            if (err){
+                // res.serverError();
+            res.badRequest()
+                // req.flash('error', 'missing title or description or category');
+            }
+            else{
+                res.json(Tip);
+            }
+        });
+    },
+
+
+
+     /**
+     * `TipsController.edit()`
+     */
+        edit: function (req, res) {
+            if(req.param('id')){
+                var id = req.param('id');
+            }
+            Tip.edit(id, req.body, function(err, category){
+                if (err){
+                    res.json({errors: err});
+                } else {
+                    res.json(category);
+                }
+            });
+        },
 
 
   /**
@@ -108,14 +121,16 @@ module.exports = {
    */
   delete: function (req, res) {
     if(req.param('id')){
-      var id = req.param('id');
+        var id = req.param('id');
     }
 
     Tip.delete(id,  function(err, category){
-      if (err)
-        res.serverError();
-      else
-        res.json(category)
+        if (err){
+            res.serverError();
+        }
+        else{
+            res.json(category)
+        }
     });
   },
 
@@ -123,63 +138,131 @@ module.exports = {
   /**
    * `TipsController.index()`
    */
-  index: function(req, res){
-    var conditions = {};
-    if(req.param('categoryId')){
-      conditions.category_id = req.param('categoryId');
-    }
-    
-    if(req.param('userId'))
-      conditions.created_by = req.param('userId');
+    index: function(req, res){
+        var conditions = {};
+        if(req.param('categoryId')){
+            conditions.category_id = req.param('categoryId');
+        }
+        if(req.param('userId')){
+            conditions.created_by = req.param('userId');
+        }
+        
+        Tip.list(conditions, function(err, tips){
+            if(err){
+              res.serverError(err);
+            } else {
+              res.json(tips);
+            }
+        });  
+    },
 
-    Tip.list(conditions, function(err, tip){
-      if(err)
-        res.serverError(err);
-      else
-        res.json(tip)
-    });  
-  },
+    userTip: function(req, res){
+        var createdUser = {};
+        if(req.param('userId')){
+            createdUser.created_by = req.param('userId');
+        }
 
+        Tip.topUserTips(createdUser, function(err, tips){
+            if(err){
+                res.serverError(err);
+            } else {
+              res.json(tips);
+            }
+        })
 
+    },
   /**
   * `TipsController.thumbsUp()`
   */
-  thumbsUp: function (req, res) {
-    var tipId = req.param("tipId");
-    var userId = req.session.user.id;
-    if(tipId){
-      var data = { user_id: userId, tip_id: tipId, thumbs: 'up'};
-      return  Thumb.upVote(data, function(err, thumb){
-        if(err)
-          res.serverError(err);
-        else{
-          Thumb.updateThumbs(tipId);
-          res.json(thumb)
-        }
-      });
-    }else
-        res.badRequest('tipId missing');
-  },
+    // thumbsUp: function (req, res) {
+    //     var tipId = req.param("tipId");
+    //     var userId = req.session.user.id;
+    //     if(tipId){
+    //         console.log('tipId is :',tipId ,'userId is :',userId);
+    //         var data = { user_id: userId, tip_id: tipId, thumbs: 'up'};
+    //         return Thumb.upVote(data, function(err, thumb){
+    //             console.log("INFO: err", err, "INFO: Thumb",thumb);
+    //             if(err){
+    //               res.serverError(err);
+    //             }
+    //             else{
+    //               Thumb.updateThumbs(tipId);
+    //               res.json(thumb);
+    //             }
+    //         });
+    //     }else{
+    //       res.badRequest('tipId missing');
+    //     }
+    // },
 
   /**
   * `TipsController.thumbsDown()`
   */
-  thumbsDown: function (req, res) {
-    var tipId = req.param("tipId");
-    var userId = req.session.user.id;
-    if(tipId){
-      var data = { user_id: userId, tip_id: tipId, thumbs: 'down'};
-      return Thumb.downVote(data, function(err, thumb){
-        if(err)
-          res.serverError(err);
-        else{
-          Thumb.updateThumbs(tipId);
-          res.json(thumb)
-        }  
-      });
-    }else
-        res.badRequest('tipId missing');
-  },
+    // thumbsDown: function (req, res) {
+    //     var tipId = req.param("tipId");
+    //     var userId = req.session.user.id;
+    //     if(tipId){
+    //         var data = { user_id: userId, tip_id: tipId, thumbs: 'down'};
+    //         return Thumb.downVote(data, function(err, thumb){
+    //             if(err){
+    //                 res.serverError(err);
+    //             }
+    //             else{
+    //                 Thumb.updateThumbs(tipId);
+    //                 res.json(thumb)
+    //             }  
+    //         });
+    //     }  else {
+    //         res.badRequest('tipId missing');
+    //     }
+    // },
+    // thumbsDownDownVote
+
+
+
+    thumbsUpVote: function(req, res){
+        var tipId = req.param('tipId');
+        var userId = req.session.user.id;
+        // console.log('req: ', tipId);
+        if(tipId){
+          // console.log('userId',userId);
+          // console.log('tipId',tipId);
+            var data = { user_id: userId, tip_id: tipId, thumbs: 'up' };
+          console.log('up request');
+
+            Thumb.vote(data, function(err, tip){
+              console.log('err and tip', err, tip);
+              res.json(tip);
+            })
+        }
+    },
+
+    thumbsDownVote: function(req, res){
+        var tipId = req.param('tipId');
+        var userId = req.session.user.id;
+        // console.log('req: ', tipId);
+        if(tipId){
+          // console.log('userId',userId);
+          // console.log('tipId',tipId);
+            var data = { user_id: userId, tip_id: tipId, thumbs: 'down' };
+            // console.log('up request');
+            
+            Thumb.vote(data, function(err, tip){
+              // console.log('err and tip', err, tip);
+              res.json(tip);
+            })
+        }
+    },
+
+    tipView: function(req, res){
+        var tipId = req.param('tipId');
+        // console.log('tip id is:', tipId);
+        if(tipId){
+            Tip.view(tipId, function(err, tip){
+            // console.log('tip',tip);
+            res.json(tip);
+        })
+      }
+    }
 
 };
-

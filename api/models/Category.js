@@ -7,18 +7,19 @@
 
 module.exports = {
 
-  attributes: {
-    title: { type: 'string' },
-    description: { type: 'string' },
-  },
+    attributes: {
+        title: { type: 'string' },
+        description: { type: 'string' },
+    },
 
-  index: function  (opts, cb) {
-  	Category.find(opts).exec(function(err, category){
-  		if(err)
-  			cb (err);
-  		else
-  			cb(null, category);
-  	});
-  }
+    index: function  (opts, cb) {
+      	Category.find(opts).exec(function(err, category){
+      		if(err){
+                cb (err);
+            } else{
+                cb(null, category);
+            }
+      	});
+    }
 };
 

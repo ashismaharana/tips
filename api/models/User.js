@@ -10,10 +10,10 @@ var crypto = require('crypto');
 module.exports = {
 
 	attributes: {
-		firstName : { type: 'string' },
-	    lastName : { type: 'string' },
+		firstName : { type: 'string', required: true },
+		lastName : { type: 'string' },
 	    email : { type: 'string', unique: true, required: true},
-	    password : { type: 'string' }
+	    password : { type: 'string', required: true}
 	},
 
 	list: function(cb){
@@ -24,12 +24,19 @@ module.exports = {
 	  	User.findOne({email: opts.email}).exec(function(err, user){
 	  		//sails.log.debug(user);
 	  		if(!err){
-	  			validatePassword(opts.password, user.password, function(res){
-	  				if(res)
-	  					return cb(null, user);	
-	  				else 
-	  					return cb(new Error('forbidden'));
-	  			});
+	  			if(user){
+				  	validatePassword(opts.password, user.password, function(res){
+		  				if(res){
+		  					return cb(null, user);	
+		  				} else {
+		  					//return cb(new Error('forbidden'));
+		  					return cb("Error: Either email / password is wrong", null)
+		  				}
+	  				});
+	  			} else {
+		  			return cb("Error: User not found!!", null)
+	  			}
+	  			
 	  		}else{
 	  			return cb(err);
 	  		}
@@ -37,11 +44,14 @@ module.exports = {
 	},
 
 	signup: function(opts, cb){
+		// console.log("OPTS", opts);
 	  	saltAndHash(opts.password, function(hash){
 				opts.password = hash;
-				// sails.log.debug(opts)
+				sails.log.debug(opts)
 				User.create(opts).exec(function(err, user){
+					console.log("i dont know what happpen", err, user);
 		  		if(!err && user){
+
 		  			return cb(null, user);
 		  		}else{
 		  			return cb(err);
@@ -50,7 +60,6 @@ module.exports = {
 
 	  	})
 	},
-
 }//module exports end
 
 //signup, login password encryption and validatePassword
