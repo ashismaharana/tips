@@ -6,6 +6,7 @@
 */
 
 var crypto = require('crypto');
+var random 	   = require("random-js")();
 
 module.exports = {
 
@@ -13,7 +14,10 @@ module.exports = {
 		firstName : { type: 'string', required: true },
 		lastName : { type: 'string' },
 	    email : { type: 'string', unique: true, required: true},
-	    password : { type: 'string', required: true}
+	    password : { type: 'string', required: true},
+	    followers : { type: 'string'},
+	    following : {type: 'string'}
+	    // following : {type: 'integer', autoIncrement: true , defaultsTo: '0'}
 	},
 
 	list: function(cb){
@@ -34,11 +38,11 @@ module.exports = {
 		  				}
 	  				});
 	  			} else {
-		  			return cb("Error: User not found!!", null)
+		  			return cb("Error: User not found!!", err)
 	  			}
 	  			
 	  		}else{
-	  			return cb(err);
+	  			return cb('err baba',err);
 	  		}
 		})
 	},
@@ -47,9 +51,9 @@ module.exports = {
 		// console.log("OPTS", opts);
 	  	saltAndHash(opts.password, function(hash){
 				opts.password = hash;
+				opts.image = "default.jpeg";
 				sails.log.debug(opts)
 				User.create(opts).exec(function(err, user){
-					console.log("i dont know what happpen", err, user);
 		  		if(!err && user){
 
 		  			return cb(null, user);
@@ -60,6 +64,70 @@ module.exports = {
 
 	  	})
 	},
+
+
+	updateProfile: function(opts,cb){
+		User.update({email: opts.email}, opts, function(err, updateUser){
+			if(!err && updateUser){
+	  			return cb(null, updateUser);
+	  		}else{
+	  			return cb(err);
+	  		}
+		})
+	},
+
+// add Image
+	addImage: function(opts, cb){
+  		var image = opts.data;
+  		var user_id = opts.user_id;
+
+  		//var ext = image.substring(image.indexOf('/')+1, image.indexOf(";"));
+  		var ext = opts.ext;
+
+        image = image.replace(/^data:image\/png;base64,/, "");
+        image = image.replace(/^data:image\/jpg;base64,/, "");
+        image = image.replace(/^data:image\/jpeg;base64,/, "");
+
+        image = new Buffer(image, 'base64');
+        
+        var doc = {};
+        doc.name = opts.user_id + '-' + (random.integer(1, 100000)) + '.jpeg';
+        doc.data = image;
+
+        AWSService.upload(doc, function(err, res){
+        	if(!err){
+        	console.log('After upload image res :',res);
+        	var oldImg = {};
+        	    User.findOne({id: opts.user_id}).exec(function(err, user){
+		        	if(!err){
+        	    		oldImg = user.image;
+						user.image = doc.name;
+						// console.log('--------------------user----------------', user);
+			    		User.update({id: opts.user_id}, user).exec(function(err, updatedUser){
+			    			console.log("Actual update of user :", err, updatedUser[0].image);
+			    			if(!err){
+			    				cb(null, updatedUser[0]);
+			    			}
+			    			else{
+			    				cb(err);
+			    			}
+			    		});
+        	    		console.log('User old image:',oldImg);
+			    		AWSService.delete(oldImg, function(err,res){
+			    			console.log('AWS delete res', err, res);
+			    		})
+		        	}
+
+		        })
+
+        	} else{
+        	console.log('After upload image AWS err',err);
+        	}
+
+
+        });
+  	},
+
 }//module exports end
 
 //signup, login password encryption and validatePassword

@@ -34,18 +34,18 @@ module.exports = {
     },
 
     edit: function(id, opts, cb) {
-        console.log("Opts", opts);
+        // console.log("Opts", opts);
 
         var tipId = opts["tip_id"];
 
         if(tipId){
             Notebook.find({id: id, created_by: opts["user_id"]}, function(err, notebook){
-            console.log("Found notebook for the user", err, notebook);
+            // console.log("Found notebook for the user", err, notebook);
             if(err){
                 cb(err);
             } else {
               var existingTipIds = notebook[0] && notebook[0]["tip_ids"];
-              console.log("esingfsdgsgs", existingTipIds);
+              // console.log("esingfsdgsgs", existingTipIds);
 
               if(existingTipIds){
                 if(existingTipIds.indexOf(tipId) == -1){
@@ -61,7 +61,7 @@ module.exports = {
               opts["tip_ids"] = existingTipIds;
               //opts["tip_ids"] = [];
 
-              console.log("Final Opts", opts);
+              // console.log("Final Opts", opts);
 
               Notebook.update({id: id}, opts, function(err2, notebook){
                 if(!err2){
@@ -95,9 +95,10 @@ module.exports = {
         })
     },
 
-    list: function(opts, cb){
+    notebook_list: function(opts, cb){
+        // console.log('---------------N B------------',opts);
         Notebook.find({created_by: opts}).exec(function(err, notebook){
-            console.log("Finding notebooks", err, notebook);
+            // console.log("Finding notebooks", err, notebook);
             if (err) {
                return cb (err);
             }  else {

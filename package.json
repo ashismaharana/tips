@@ -1,11 +1,12 @@
 {
-  "name": "testProject",
+  "name": "Tipsly",
   "private": true,
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "a Sails application",
   "keywords": [],
   "dependencies": {
     "bcrypt": "^0.8.0",
+    "connect-multiparty": "^1.2.5",
     "ejs": "~0.8.4",
     "grunt": "0.4.2",
     "grunt-contrib-clean": "~0.5.0",
@@ -20,11 +21,14 @@
     "grunt-sails-linker": "~0.9.5",
     "grunt-sync": "~0.0.4",
     "include-all": "~0.1.3",
+    "elasticsearch": "2.4.0",
     "rc": "~0.5.0",
     "sails": "~0.10.5",
     "sails-disk": "~0.10.0",
     "sails-mongo": "0.10.x",
-    "skipper-s3": "^0.5.5"
+    "skipper-s3": "^0.5.5",
+    "aws-sdk": "*",
+    "random-js": "1.0.4"
   },
   "scripts": {
     "start": "node app.js",
@@ -36,5 +40,7 @@
     "url": "git://github.com/ashismaharana/tips.git"
   },
   "author": "ashismaharana",
-  "license": ""
+  "license": "",
+  "devDependencies": {
+  }
 }

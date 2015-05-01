@@ -115,7 +115,9 @@ module.exports = {
                                 }
                                 // update Tip
 
-                                // console.log("What was the upcount", tip.thumb_param);
+                                console.log("------------------------------What was the upcount", tip.thumb_param);
+                                console.log("------------------------------What was the upcount", thumb_param);
+
 
                                 var upCount = tip.thumbs_up - 1;
                                 Tip.update({id: tip.id}, thumb_param).exec(function(err, tip){
